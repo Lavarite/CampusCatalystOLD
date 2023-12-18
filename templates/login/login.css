@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px; /* Set a fixed width for the container */
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left; /* Align the text to the left within the input group */
+}
+
+input[type="email"], input[type="password"] {
+    width: calc(100% - 20px); /* Calculate width to include padding */
+    padding: 10px;
+    margin: 0 auto; /* Auto margins for horizontal centering */
+    display: block; /* Make input a block element to fill width */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+button {
+    width: calc(100% - 20px); /* Match button width to input fields */
+    padding: 10px;
+    margin-top: 10px; /* Add some space above the button */
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block; /* Ensure button is block level for full width */
+    margin: 0 auto; /* Center button horizontally */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.google-btn {
+    background-color: #FF0000;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.google-btn:hover {
+    background-color: #AA0000;
+}
+
+.google-btn:active {
+    background-color: #CC0000;
+    box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.25);
+}
+
+.google-btn:focus {
+    outline: none;
+}
+
+.google-btn img {
+    margin-right: 10px;
+}
+
