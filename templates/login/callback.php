@@ -46,33 +46,37 @@ if ($client->getAccessToken()) {
     $email =  $google_account_info->email;
     $name =  $google_account_info->name;
 
-    // Do something with the user information (e.g., store in session, display)
-    echo "User Info: Name - $name, Email - $email";
     $sql = "SELECT * FROM accounts WHERE email='$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         $role = $row['role'];
+        $id = $row['id'];
+
+        $temp = sha1(rand());
+        $tokenValue = substr($temp, 0, 16);
+        $cookieResult = $conn->query("UPDATE accounts SET CookiePass='$tokenValue' WHERE id='$id'");
+        setcookie('updateToken', $tokenValue, time() + (86400 * 30), "/");
 
         if ($role == 'student') {
-            header('Location: ../student/dashboard/student_dashboard.html');
+            header('Location: ../student/dashboard/student_dashboard.php');
             exit();
         } elseif ($role == 'teacher') {
-            header('Location: ../teacher/dashboard/teacher_dashboard.html');
+            header('Location: ../teacher/dashboard/teacher_dashboard.php');
             exit();
         } elseif ($role == 'admin') {
-            header('Location: ../admin/dashboard/admin_dashboard.html');
+            header('Location: ../admin/dashboard/admin_dashboard.php');
             exit();
         }
     } else {
         // Redirect back to the login page with an error flag
-        header("Location: login.html?error=1");
+        header("Location: login.php?error=1");
         exit();
     }
 } else {
     // No valid token available, redirect to login
-    header('Location: login.html');
+    header('Location: login.php');
     exit();
 }
 ?>

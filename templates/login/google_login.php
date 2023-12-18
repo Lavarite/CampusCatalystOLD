@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../../google-api-php-client-2.4.0/vendor/autoload.php';
 
 $clientId = '650088888366-62bjkkspfv141i8rk0auhk2ocigm5kul.apps.googleusercontent.com'; // Replace with your client ID

@@ -1,50 +1,41 @@
 <?php
-session_start();
-
-$host = 'localhost'; // Host name
-$username = 'root'; // MySQL username
-$password = '321567@Op'; // MySQL password
-$db_name = 'accounts'; // Database name
-
-// Connect to server and select database.
-$conn = new mysqli($host, $username, $password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if email and password are set from the form data
-if (isset($_POST['email']) && isset($_POST['password'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password']; // This should be hashed
-
-    // To protect from MySQL injection
-    $email = stripslashes($email);
-    $password = stripslashes($password);
-    $email = $conn->real_escape_string($email);
-    $password = $conn->real_escape_string($password);
-
-    $sql = "SELECT * FROM accounts WHERE email='$email' AND password='$password'"; // Password should be hashed
-    $result = $conn->query($sql);
-
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        $role = $row['role'];
-
-        // Output role to the command line
-        echo "Logged in as: " . $role . "\n";
-    } else {
-        // Redirect back to the login page with an error flag
-        header("Location: login.html?error=1");
-        exit();
-    }
-} else {
-    // Redirect back to the login page without processing
-    header("Location: login.html");
-    exit();
-}
-
-$conn->close();
+setcookie("updateToken", "", time() - 3600, "/");
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+    <form action="login_auth.php" method="post">
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <div id="error-message"></div>
+        <button type="submit" name="login">Login</button>
+        <button type="button" onclick="window.location = 'google_login.php';" class="google-btn">
+            Log in with Google
+        </button>
+    </form>
+</div>
+<script>
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            document.getElementById('error-message').textContent = 'Incorrect email or password.';
+        }
+    };
+</script>
+</body>
+</html>
