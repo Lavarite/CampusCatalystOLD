@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+/* Generic dropdown styles */
+.dropdown {
+    position: relative; /* This positions the dropdown content relative to this container */
+}
+
+/* Style for the dropdown buttons */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.profilebtn {
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown content container, hidden by default */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px; /* Adjust width as necessary */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.dropdown-content-user {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px; /* Adjust width as necessary */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    right: 0;
+}
+
+/* Position the left dropdown content below the button */
+.dropdown .menu-content {
+    left: 0;
+    top: 100%;
+}
+
+/* Position the right dropdown content below the button */
+.dropdown .profile-content {
+    right: 0;
+    top: 100%;
+}
+
+/* Dropdown list items */
+.dropdown-content li {
+    list-style-type: none; /* Remove bullets */
+    padding: 12px 16px;
+    color: black;
+    background: none;
+    display: block; /* Make list items block level */
+    text-align: left; /* Align text to the left */
+}
+
+.dropdown-content-user li {
+    list-style-type: none; /* Remove bullets */
+    padding: 12px 16px;
+    color: black;
+    background: none;
+    display: block; /* Make list items block level */
+    text-align: left; /* Align text to the left */
+}
+
+/* Hover state for dropdown list items */
+.dropdown-content li:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Show the dropdown menu on parent hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content-user li:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Show the dropdown menu on parent hover */
+.dropdown:hover .dropdown-content-user {
+    display: block;
+}
+
+/* Profile picture styling */
+.profile-pic {
+    vertical-align: middle;
+    border-radius: 50%;
+    width: 30px; /* Set the width of your profile picture */
+    height: 30px; /* Set the height of your profile picture */
+}
+
+/* Ensure the header fills the width and the dropdown stretches to the edges */
+.header {
+    width: 100%;
+}
+
+/* Add some space between the dropdown button and the dropdown content */
+.dropbtn {
+    margin-bottom: 0.5rem; /* This pushes the dropdown content down a bit */
+}

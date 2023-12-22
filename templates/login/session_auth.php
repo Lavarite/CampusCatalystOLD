@@ -1,11 +1,10 @@
 <?php
 function auth($path, $role)
 {
-    session_start();
     $host = 'localhost'; // Host name
     $username = 'root'; // MySQL username
     $password = '321567@Op'; // MySQL password
-    $db_name = 'accounts'; // Database name
+    $db_name = 'DataHub'; // Database name
 
     // Connect to server and select database.
     $conn = new mysqli($host, $username, $password, $db_name);
@@ -14,10 +13,10 @@ function auth($path, $role)
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    if (isset($_COOKIE['updateToken'])) {
+    if (isset($_COOKIE['token'])) {
 
-        $tokenValue = $_COOKIE['updateToken'];
-        $result = $conn->query("SELECT * FROM accounts WHERE CookiePass='$tokenValue'");
+        $tokenValue = $_COOKIE['token'];
+        $result = $conn->query("SELECT * FROM accounts WHERE token='$tokenValue'");
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();

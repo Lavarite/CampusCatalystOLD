@@ -1,0 +1,413 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+/* Generic dropdown styles */
+.dropdown {
+    position: relative; /* This positions the dropdown content relative to this container */
+}
+
+/* Style for the dropdown buttons */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.profilebtn {
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown content container, hidden by default */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px; /* Adjust width as necessary */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.dropdown-content-user {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px; /* Adjust width as necessary */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    right: 0;
+}
+
+/* Position the left dropdown content below the button */
+.dropdown .menu-content {
+    left: 0;
+    top: 100%;
+}
+
+/* Position the right dropdown content below the button */
+.dropdown .profile-content {
+    right: 0;
+    top: 100%;
+}
+
+/* Dropdown list items */
+.dropdown-content li {
+    list-style-type: none; /* Remove bullets */
+    padding: 12px 16px;
+    color: black;
+    background: none;
+    display: block; /* Make list items block level */
+    text-align: left; /* Align text to the left */
+}
+
+.dropdown-content-user li {
+    list-style-type: none; /* Remove bullets */
+    padding: 12px 16px;
+    color: black;
+    background: none;
+    display: block; /* Make list items block level */
+    text-align: left; /* Align text to the left */
+}
+
+/* Hover state for dropdown list items */
+.dropdown-content li:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Show the dropdown menu on parent hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content-user li:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Show the dropdown menu on parent hover */
+.dropdown:hover .dropdown-content-user {
+    display: block;
+}
+
+/* Profile picture styling */
+.profile-pic {
+    vertical-align: middle;
+    border-radius: 50%;
+    width: 30px; /* Set the width of your profile picture */
+    height: 30px; /* Set the height of your profile picture */
+}
+
+/* Ensure the header fills the width and the dropdown stretches to the edges */
+.header {
+    width: 100%;
+}
+
+/* Add some space between the dropdown button and the dropdown content */
+.dropbtn {
+    margin-bottom: 0.5rem; /* This pushes the dropdown content down a bit */
+}
+/*---------------------------------*/
+.filtered-classes {
+    display: flex;
+    flex-direction: row; /* Align children side by side */
+    justify-content: flex-start; /* Align to the start, removing space between */
+    align-items: flex-start; /* Align items to the top */
+    gap: 10px; /* This sets a small gap between the items */
+}
+
+.filter-bar {
+    background-color: #f9f9f9; /* Light grey background */
+    padding: 20px; /* Padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px; /* Fixed width, adjust as needed */
+}
+
+.filter-bar form div {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+.filter-bar label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input field styling */
+.filter-bar input[type="text"],
+.filter-bar input[type="number"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.filter-bar input[type="text"]:focus,
+.filter-bar input[type="number"]:focus {
+    border-color: #88aaff; /* Highlight color when input is focused */
+    outline: none;
+}
+
+/* Button styling */
+.filter-bar button {
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0056b3;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-bar button {
+    margin-top: 5px;
+}
+
+.filter-bar button:hover {
+    background-color: #003d82;
+}
+
+.filter-bar button[type="button"] {
+    background-color: #6c757d; /* Different color for reset button */
+}
+
+.filter-bar button[type="button"]:hover {
+    background-color: #565e64;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-bar {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 20px;
+    }
+}
+/*------------------------------*/
+.scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+.class-table {
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: 20px;
+    margin-top: 10px;
+    max-width: 60%;
+}
+
+.class-table th {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.class-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.class-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+    .class-table, .class-table thead, .class-table tbody, .class-table th, .class-table td, .class-table tr {
+        display: block;
+    }
+
+    .class-table th, .class-table td {
+        text-align: right;
+        padding-left: 50%;
+    }
+
+    .class-table th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .class-table tr {
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+    }
+}
+/*--------------------------------*/
+.create-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.popup-form {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    width: 90%;
+    max-width: 90%;
+}
+
+.form-container, .teacher-container, .student-container, .week-schedule {
+    width: 400px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#teacherSearchResults, #studentSearchResults {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+.form-container h2, .week-schedule h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.form-container label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit, .add-schedule-btn, .cancel-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    margin-left: 10px;
+}
+
+.add-schedule-btn:hover, input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.form-flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.scrollable-container {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+.selected-person, .schedule-entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-entry input[type="text"] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selected-person div, .schedule-entry div {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selected-person .remove, .schedule-entry .remove {
+    cursor: pointer;
+    color: #ff6666;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .teacher-container, .student-container, .form-container, .week-schedule {
+        max-width: none;
+    }
+}

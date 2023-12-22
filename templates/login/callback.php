@@ -21,7 +21,7 @@ $client->setHttpClient(new GuzzleHttp\Client(['verify' => false]));
 $host = 'localhost'; // Host name
 $username = 'root'; // MySQL username
 $password = '321567@Op'; // MySQL password
-$db_name = 'accounts'; // Database name
+$db_name = 'DataHub'; // Database name
 
 // Connect to server and select database.
 $conn = new mysqli($host, $username, $password, $db_name);
@@ -56,8 +56,8 @@ if ($client->getAccessToken()) {
 
         $temp = sha1(rand());
         $tokenValue = substr($temp, 0, 16);
-        $cookieResult = $conn->query("UPDATE accounts SET CookiePass='$tokenValue' WHERE id='$id'");
-        setcookie('updateToken', $tokenValue, time() + (86400 * 30), "/");
+        $cookieResult = $conn->query("UPDATE accounts SET token='$tokenValue' WHERE id='$id'");
+        setcookie('token', $tokenValue, time() + (86400 * 30), "/");
 
         if ($role == 'student') {
             header('Location: ../student/dashboard/student_dashboard.php');
