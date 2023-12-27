@@ -22,6 +22,26 @@ function getId()
     return -1;
 }
 
+function getAccount()
+{
+    $token = $_COOKIE['token'];
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $query = "SELECT * FROM accounts WHERE token = '$token'";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    }
+    return '';
+}
+
 //get the lessons for a given day
 function getLessons($role, $day=null, $month=null, $year=null, $id=null)
 {
@@ -143,6 +163,7 @@ function getFilteredClasses()
                 $teachers[] = substr($teacher['name'], 0, 1) . ' ' . $teacher['surname'];
             }
             $classes[] = [
+                'id' => $row['id'],
                 'name' => $row['name'],
                 'year' => $row['year'],
                 'code' => $row['code'],
@@ -155,5 +176,113 @@ function getFilteredClasses()
 // Close the database connection
     $conn->close();
     return $classes;
+}
+
+function getClassFromId($id)
+{
+    // Database connection variables
+    $hostname = "localhost";
+    $username = "root";
+    $password = "321567@Op";
+    $database = "datahub";
+
+// Establish connection to the database
+    $conn = new mysqli($hostname, $username, $password, $database);
+
+// Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $classDetails = [];
+    $studentIds = [];
+    $teacherIds = [];
+    $scheduleData = [];
+
+// 1. Retrieve class details
+    $sql = "SELECT * FROM classes WHERE id = '$id';";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $classDetails = $result->fetch_assoc();
+    }
+
+// 2. Fetch associated students
+    $sql = "SELECT account_id FROM class_students WHERE class_id = '$id';";
+    $result = $conn->query($sql);
+    while($row = $result->fetch_assoc()) {
+        $studentIds[] = $row['account_id'];
+    }
+
+// 3. Fetch associated teachers
+    $sql = "SELECT account_id FROM class_teachers WHERE class_id = '$id';";
+    $result = $conn->query($sql);
+    while($row = $result->fetch_assoc()) {
+        $teacherIds[] = $row['account_id'];
+    }
+
+// 4. Fetch class schedule
+    $sql = "SELECT * FROM class_schedule WHERE class_id = '$id';";
+    $result = $conn->query($sql);
+    while($row = $result->fetch_assoc()) {
+        $scheduleData[] = $row;
+    }
+
+    $return_class = [
+        'subject' => $classDetails['name'],
+        'code' => $classDetails['code'],
+        'year' => $classDetails['year'],
+        'half' => $classDetails['half'],
+        'set' => $classDetails['set'],
+        'teacherIds' => $teacherIds,
+        'studentIds' => $studentIds,
+        'scheduleData' => $scheduleData
+    ];
+
+// Close the connection
+    $conn->close();
+    return $return_class;
+}
+
+function getAccountNames()
+{
+    $names = [];
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $query = "SELECT id, name, surname FROM accounts";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $names[$row['id']] = $row['name'] . ' ' . $row['surname'];
+        }
+        return $names;
+    }
+    return [];
+}
+
+function getAccountName($id)
+{
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $query = "SELECT name, surname FROM accounts WHERE id = '$id'";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['name'] . ' ' . $row['surname'];
+    }
+    return '';
 }
 ?>

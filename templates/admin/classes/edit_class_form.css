@@ -1,0 +1,133 @@
+#edit .popup-form {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    width: 90%;
+    max-width: 90%;
+}
+
+#edit .form-container, .teacher-container, .student-container, .week-schedule {
+    width: 400px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#edit #teacherSearchResults, #studentSearchResults {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+#edit .form-container h2, .week-schedule h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#edit .form-container label {
+    display: block;
+    margin-top: 10px;
+}
+
+#edit .form-container input[type="text"],
+.form-container input[type="number"],
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#edit .form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#edit .submit, .add-schedule-btn, .cancel-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#edit .cancel-btn {
+    background-color: #f44336;
+    margin-left: 10px;
+}
+
+#edit .add-schedule-btn:hover, input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#edit .form-flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#edit .scrollable-container {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+#edit .selected-person, .schedule-entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#edit .schedule-entry input[type="text"] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#edit .selected-person div, .schedule-entry div {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#edit .selected-person .remove, .schedule-entry .remove {
+    cursor: pointer;
+    color: #ff6666;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    #edit .teacher-container, .student-container, .form-container, .week-schedule {
+        max-width: none;
+    }
+}

@@ -2,6 +2,7 @@
 include('../../login/session_auth.php');
 auth('../../login/login.php', 'admin');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $class_id = (int) $_POST['class_id'];
     $subject = $_POST['subject'];
     $year = (int) $_POST['year'];
     $set = $_POST['set'];
@@ -19,21 +20,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = new mysqli($hostname, $username, $password, $database);
 
-    $sql = "INSERT INTO classes (name, code, year, half, `set`) VALUES ('$subject', '$class_code', '$year', '$half', '$set');";
+    $sql = "UPDATE classes SET
+            name = '$subject',
+            code = '$class_code',
+            year = '$year',
+            half = '$half',
+            `set` = '$set'
+            WHERE id = '$class_id'";
 
     $conn->query($sql);
 
-    $lastClassId = $conn->insert_id;
+    // Delete existing student and teacher associations
+    $conn->query("DELETE FROM class_students WHERE class_id = '$class_id'");
+    $conn->query("DELETE FROM class_teachers WHERE class_id = '$class_id'");
 
     foreach ($studentIds as $studentId) {
-        $sql = "INSERT INTO class_students (class_id, account_id) VALUES ('$lastClassId', '$studentId')";
+        $sql = "INSERT INTO class_students (class_id, account_id) VALUES ('$class_id', '$studentId')";
         $conn->query($sql);
     }
 
     foreach ($teacherIds as $teacherId) {
-        $sql = "INSERT INTO class_teachers (class_id, account_id) VALUES ('$lastClassId', '$teacherId')";
+        $sql = "INSERT INTO class_teachers (class_id, account_id) VALUES ('$class_id', '$teacherId')";
         $conn->query($sql);
     }
+
+    $conn->query("DELETE FROM class_schedule WHERE class_id = $class_id");
 
     if(isset($_POST['weekAScheduleData']) and isset($_POST['weekBScheduleData'])){
         $weekType = 'A';
@@ -46,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($weekAScheduleEntries as $entry) {
             list($day, $classroom, $startTime, $endTime) = explode(',', $entry);
             $day = (int)$day;
-            $sql = "INSERT INTO class_schedule (class_id, day_of_week, session_start, session_end, week, classroom) VALUES ('$lastClassId', '$day', '$startTime', '$endTime', '$weekType', '$classroom')";
+            $sql = "INSERT INTO class_schedule (class_id, day_of_week, session_start, session_end, week, classroom) VALUES ('$class_id', '$day', '$startTime', '$endTime', '$weekType', '$classroom')";
             $conn->query($sql);
         }
     }
@@ -56,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($weekBScheduleEntries as $entry) {
             list($day, $classroom, $startTime, $endTime) = explode(',', $entry);
             $day = (int)$day;
-            $sql = "INSERT INTO class_schedule (class_id, day_of_week, session_start, session_end, week, classroom) VALUES ('$lastClassId', '$day', '$startTime', '$endTime', 'B', '$classroom')";
+            $sql = "INSERT INTO class_schedule (class_id, day_of_week, session_start, session_end, week, classroom) VALUES ('$class_id', '$day', '$startTime', '$endTime', 'B', '$classroom')";
             $conn->query($sql);
         }
     }
