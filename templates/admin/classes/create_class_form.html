@@ -104,7 +104,8 @@
     }
 
 
-    function toggleWeeksSchedule() {
+    function toggleWeeksSchedule(state='') {
+        if (state!=='') document.getElementById('scheduleCheckbox').checked = state;
         var isChecked = document.getElementById('scheduleCheckbox').checked;
         document.getElementById('weekBSchedule').style.display = !isChecked ? 'none' : 'block';
         if (isChecked) {

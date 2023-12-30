@@ -43,7 +43,7 @@ function getAccount()
 }
 
 //get the lessons for a given day
-function getLessons($role, $day=null, $month=null, $year=null, $id=null)
+function getLessons($role, $day='', $month='', $year='', $id='')
 {
     $host = 'localhost'; // Host name
     $username = 'root'; // MySQL username
@@ -51,9 +51,9 @@ function getLessons($role, $day=null, $month=null, $year=null, $id=null)
     $db_name = 'DataHub'; // Database name
     $conn = new mysqli($host, $username, $password, $db_name);
 
-    $day = is_null($day) ? date('j') : $day;
-    $month = is_null($month) ? date('m') : $month;
-    $year = is_null($year) ? date('Y') : $year;
+    $day = empty($day) ? date('j') : $day;
+    $month = empty($month) ? date('m') : $month;
+    $year = empty($year) ? date('Y') : $year;
 
     $dateString = sprintf('%04d-%02d-%02d', $year, $month, $day);
     $timestamp = strtotime($dateString);
@@ -61,13 +61,13 @@ function getLessons($role, $day=null, $month=null, $year=null, $id=null)
     $weekOfYear = date('W', $timestamp);
     $weekType = ($weekOfYear % 2 === 0) ? 'B' : 'A';
 
-    $accountId = is_null($id) ? getId() : $id;
+    $accountId = empty($id) ? getId() : $id;
     $class_role = ($role == 'student') ?  'class_students' : 'class_teachers';
     $query = "SELECT c.name, cs.day_of_week, cs.session_start, cs.session_end, cs.classroom 
           FROM class_schedule cs
           INNER JOIN classes c ON cs.class_id = c.id
           INNER JOIN $class_role cls ON c.id = cls.class_id
-          WHERE cls.account_id = $accountId AND cs.day_of_week = $set_day AND (cs.week = '$weekType' OR cs.week = 'Both')
+          WHERE cls.account_id = '$accountId' AND cs.day_of_week = '$set_day' AND (cs.week = '$weekType' OR cs.week = 'Both')
           ORDER BY cs.session_start ASC";
 
     $result = $conn->query($query);
@@ -83,6 +83,24 @@ function getLessons($role, $day=null, $month=null, $year=null, $id=null)
 
     $conn->close();
     return $todaysClasses;
+}
+
+function getLessonsInterval($interval, $role, $date='', $id='')
+{
+    $id = empty($id) ? getId() : $id;
+    $dates = [];
+    $currentDate = empty($date) ? new DateTime() : $date; // start from today
+    for ($i = 0; $i < $interval; $i++) {
+        $dates[] = clone $currentDate;
+        $currentDate->modify('+1 day');
+    }
+
+    // Fetch schedules for each day
+    $schedules = [];
+    foreach ($dates as $date) {
+        $schedules[$date->format('Y-m-d')] = getLessons($role, $date->format('j'), $date->format('n'), $date->format('Y'), $id);
+    }
+    return $schedules;
 }
 
 function getFilteredClasses()
@@ -108,6 +126,7 @@ function getFilteredClasses()
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $year = isset($_GET['year']) ? $_GET['year'] : '';
     $teacher = isset($_GET['teacher']) ? $_GET['teacher'] : '';
+    $student = isset($_GET['student']) ? $_GET['student'] : '';
     $code = isset($_GET['code']) ? $_GET['code'] : '';
 
 // Add search condition for subject
@@ -125,6 +144,10 @@ function getFilteredClasses()
         $whereClauses[] = "(a.name LIKE '%" . $conn->real_escape_string($teacher) . "%' OR a.surname LIKE '%" . $conn->real_escape_string($teacher) . "%')";
     }
 
+    if (!empty($student)) {
+        $whereClauses[] = "(b.name LIKE '%" . $conn->real_escape_string($student) . "%' OR b.surname LIKE '%" . $conn->real_escape_string($student) . "%')";
+    }
+
 // Add code condition for class code
     if (!empty($code)) {
         $whereClauses[] = "c.code LIKE '%" . $conn->real_escape_string($code) . "%'";
@@ -139,8 +162,10 @@ function getFilteredClasses()
        c.year
         FROM classes c
         LEFT JOIN class_teachers ct ON c.id = ct.class_id
-        LEFT JOIN accounts a ON ct.account_id = a.id" . $where .
-        " GROUP BY c.id";
+        LEFT JOIN accounts a ON ct.account_id = a.id
+        LEFT JOIN class_students cs ON c.id = cs.class_id
+        LEFT JOIN accounts b ON cs.account_id = b.id" . $where .
+        " GROUP BY c.id";;
 
 // Execute the SQL query
     $result = $conn->query($sql);

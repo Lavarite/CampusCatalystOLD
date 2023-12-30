@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->query("DELETE FROM class_schedule WHERE class_id = $class_id");
 
-    if(isset($_POST['weekAScheduleData']) and isset($_POST['weekBScheduleData'])){
+    if(!empty($_POST['weekAScheduleData']) and !empty($_POST['weekBScheduleData'])){
         $weekType = 'A';
     }else {
         $weekType = 'Both';

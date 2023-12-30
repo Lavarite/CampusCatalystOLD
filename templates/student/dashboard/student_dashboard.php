@@ -10,35 +10,14 @@ $todaysClasses = getLessons('student');
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
     <link href="student_dashboard.css" rel="stylesheet" type="text/css">
+    <link href="../header/header.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>$(function(){$(".header").load("../header/header.html")});</script>
 </head>
 <body>
 
 <!-- Header -->
-<div class="header">
-    <!-- Main Dropdown Menu -->
-    <div class="dropdown">
-        <button class="dropbtn">Menu</button>
-        <ul class="dropdown-content">
-            <li>Option 1</li>
-            <li>Option 2</li>
-            <li>Option 3</li>
-        </ul>
-    </div>
-
-    <!-- Spacer -->
-    <div class="spacer"></div>
-
-    <!-- Profile Picture Button -->
-    <div class="dropdown">
-        <button class="profilebtn">
-            <img src="../../../presets/profile_picture.png" class="profile-pic" alt="Profile">
-        </button>
-        <ul class="dropdown-content-user">
-            <li onclick="window.location.href = 'student_dashboard.php'">Dashboard</li>
-            <li onclick="window.location.href = '../../login/login.php'">Log Out</li>
-        </ul>
-    </div>
-</div>
+<div class="header"></div>
 
 <div class="date-label">Schedule for <?php echo date('j') . 'th ' . date('F')?></div>
 <div class="schedule-graph">

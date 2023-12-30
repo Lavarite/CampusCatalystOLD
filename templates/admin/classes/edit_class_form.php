@@ -56,7 +56,8 @@ $weekB = array_values(array_filter($schedule, function ($entry) {
     }
 
 
-    function toggleWeeksSchedule() {
+    function toggleWeeksSchedule(state='') {
+        if (state!==''){ document.getElementById('scheduleCheckbox').checked = state;}
         var isChecked = document.getElementById('scheduleCheckbox').checked;
         document.getElementById('weekBSchedule').style.display = !isChecked ? 'none' : 'block';
         if (isChecked) {
@@ -72,7 +73,7 @@ $weekB = array_values(array_filter($schedule, function ($entry) {
         var entryDiv = document.createElement('div');
         entryDiv.className = 'schedule-entry';
         entryDiv.innerHTML = `
-        <select name="${weekPrefix}[]" >
+        <select name="${weekPrefix}[]">
             <option value="1">Monday</option>
             <option value="2">Tuesday</option>
             <option value="3">Wednesday</option>
@@ -92,8 +93,8 @@ $weekB = array_values(array_filter($schedule, function ($entry) {
         <span class="remove" onclick="removeScheduleEntry(this)">&times;</span>
         `;
         document.getElementById(weekId).appendChild(entryDiv);
-        entryDiv.querySelector(`select[name="${weekPrefix}\\[\\]"]`).value = day;
-        entryDiv.querySelector(`select[name="${sessionPrefix}\\[\\]"]`).value = session;
+        entryDiv.querySelector(`select[name="${weekPrefix}\\[\\]"]`).value = day==='' ? "1" : day;
+        entryDiv.querySelector(`select[name="${sessionPrefix}\\[\\]"]`).value = session==='' ? "08:50:00,09:50:00" : session;
     }
 
     function removeScheduleEntry(element) {
@@ -308,9 +309,9 @@ $weekB = array_values(array_filter($schedule, function ($entry) {
     </div>
     <div class="schedule-container">
         <label>
+            <script>toggleWeeksSchedule(<?php echo $weekB!=false;?>);</script>
             <input type="checkbox" id="scheduleCheckbox" onchange="toggleWeeksSchedule()"> Week A / Week B
         </label>
-        <script>document.getElementById('scheduleCheckbox').checked = !<?php echo (int) empty($weekBoth)?>; toggleWeeksSchedule();</script>
         <div id="weekASchedule" class="week-schedule">
             <h3>Week A Schedule</h3>
             <div id="weekAEntries"></div>

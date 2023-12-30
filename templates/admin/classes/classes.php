@@ -6,6 +6,7 @@ auth('../../login/login.php', 'admin');
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $year = isset($_GET['year']) ? $_GET['year'] : '';
 $teacher = isset($_GET['teacher']) ? $_GET['teacher'] : '';
+$student = isset($_GET['student']) ? $_GET['student'] : '';
 $code = isset($_GET['code']) ? $_GET['code'] : '';
 
 // Call the function with filter values
@@ -15,37 +16,17 @@ $classes = getFilteredClasses();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>Student Dashboard</title>
     <link href="classes.css" rel="stylesheet" type="text/css">
     <link href="create_class_form.css" rel="stylesheet" type="text/css">
+    <link href="../header/header.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>$(function(){$(".header").load("../header/header.html")});</script>
 </head>
 <body>
-<div class="header">
-    <!-- Main Dropdown Menu -->
-    <div class="dropdown">
-        <button class="dropbtn">Menu</button>
-        <ul class="dropdown-content">
-            <li onclick="window.location.href = 'classes.php'">Classes</li>
-            <li>Option 2</li>
-            <li>Option 3</li>
-        </ul>
-    </div>
 
-    <!-- Spacer -->
-    <div class="spacer"></div>
-
-    <!-- Profile Picture Button -->
-    <div class="dropdown">
-        <button class="profilebtn">
-            <img src="../../../presets/profile_picture.png" class="profile-pic" alt="Profile">
-        </button>
-        <ul class="dropdown-content-user">
-            <li onclick="window.location.href = 'admin_dashboard.php'">Dashboard</li>
-            <li onclick="window.location.href = '../../login/login.php'">Log Out</li>
-        </ul>
-    </div>
-</div>
+<!-- Header -->
+<div class="header"></div>
 
 <div class="filtered-classes">
     <div class="filter-bar">
@@ -61,6 +42,10 @@ $classes = getFilteredClasses();
             <div>
                 <label for="teacher">Teacher:</label>
                 <input type="text" id="teacher" name="teacher" value="<?php echo htmlspecialchars($teacher); ?>">
+            </div>
+            <div>
+                <label for="teacher">Student:</label>
+                <input type="text" id="student" name="student" value="<?php echo htmlspecialchars($student); ?>">
             </div>
             <div>
                 <label for="code">Code:</label>

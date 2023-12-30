@@ -35,13 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->query($sql);
     }
 
-    if(isset($_POST['weekAScheduleData']) and isset($_POST['weekBScheduleData'])){
-        $weekType = 'A';
-    }else {
-        $weekType = 'Both';
-    }
-
-    if (isset($_POST['weekAScheduleData']) and $_POST['weekAScheduleData'] !== '') {
+    $weekType = !isset($_POST['weekBScheduleData']) ? 'A' : 'Both';
+    if (isset($_POST['weekAScheduleData'])) {
         $weekAScheduleEntries = explode(';', $_POST['weekAScheduleData']);
         foreach ($weekAScheduleEntries as $entry) {
             list($day, $classroom, $startTime, $endTime) = explode(',', $entry);
@@ -51,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (isset($_POST['weekBScheduleData']) and $_POST['weekBScheduleData'] !== '') {
+    if (isset($_POST['weekBScheduleData'])) {
         $weekBScheduleEntries = explode(';', $_POST['weekBScheduleData']);
         foreach ($weekBScheduleEntries as $entry) {
             list($day, $classroom, $startTime, $endTime) = explode(',', $entry);
