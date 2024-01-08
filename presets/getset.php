@@ -1,5 +1,4 @@
 <?php
-//get id of the account connected
 function getId()
 {
     $token = $_COOKIE['token'];
@@ -59,16 +58,16 @@ function getLessons($role, $day='', $month='', $year='', $id='')
     $timestamp = strtotime($dateString);
     $set_day = date('N', $timestamp);
     $weekOfYear = date('W', $timestamp);
-    $weekType = ($weekOfYear % 2 === 0) ? 'B' : 'A';
+    $weekType = ($weekOfYear % 2 === 1) ? 'B' : 'A';
 
-    $accountId = empty($id) ? getId() : $id;
+    $accountIdWhere = empty($id) ? '' : "cls.account_id = '$id' AND";
     $class_role = ($role == 'student') ?  'class_students' : 'class_teachers';
-    $query = "SELECT c.name, cs.day_of_week, cs.session_start, cs.session_end, cs.classroom 
+    $query = "SELECT c.id, c.name, cs.day_of_week, cs.session_start, cs.session_end, cs.classroom 
           FROM class_schedule cs
           INNER JOIN classes c ON cs.class_id = c.id
           INNER JOIN $class_role cls ON c.id = cls.class_id
-          WHERE cls.account_id = '$accountId' AND cs.day_of_week = '$set_day' AND (cs.week = '$weekType' OR cs.week = 'Both')
-          ORDER BY cs.session_start ASC";
+          WHERE " . $accountIdWhere . " cs.day_of_week = '$set_day' AND (cs.week = '$weekType' OR cs.week = 'Both')
+          ORDER BY cs.session_start";
 
     $result = $conn->query($query);
 
@@ -99,6 +98,64 @@ function getLessonsInterval($interval, $role, $date='', $id='')
     $schedules = [];
     foreach ($dates as $date) {
         $schedules[$date->format('Y-m-d')] = getLessons($role, $date->format('j'), $date->format('n'), $date->format('Y'), $id);
+    }
+    return $schedules;
+}
+
+function getClassLessons($day='', $month='', $year='', $id='')
+{
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $day = empty($day) ? date('j') : $day;
+    $month = empty($month) ? date('m') : $month;
+    $year = empty($year) ? date('Y') : $year;
+
+    $dateString = sprintf('%04d-%02d-%02d', $year, $month, $day);
+    $timestamp = strtotime($dateString);
+    $set_day = date('N', $timestamp);
+    $weekOfYear = date('W', $timestamp);
+    $weekType = ($weekOfYear % 2 === 1) ? 'B' : 'A';
+
+    $classIdWhere = empty($id) ? '' : "c.id = '$id' AND";
+    $query = "SELECT c.id, c.name, cs.day_of_week, cs.session_start, cs.session_end, cs.classroom 
+          FROM class_schedule cs
+          INNER JOIN classes c ON cs.class_id = c.id
+          WHERE " . $classIdWhere . " cs.day_of_week = '$set_day' AND (cs.week = '$weekType' OR cs.week = 'Both')
+          ORDER BY cs.session_start";
+
+    $result = $conn->query($query);
+
+    if (!$result) {
+        die("Error: " . $conn->error);
+    }
+
+    $todaysClasses = [];
+    while ($row = $result->fetch_assoc()) {
+        $todaysClasses[] = $row;
+    }
+
+    $conn->close();
+    return $todaysClasses;
+}
+
+
+function getClassLessonsInterval($interval, $id, $date='')
+{
+    $dates = [];
+    $currentDate = empty($date) ? new DateTime() : $date; // start from today
+    for ($i = 0; $i < $interval; $i++) {
+        $dates[] = clone $currentDate;
+        $currentDate->modify('+1 day');
+    }
+
+    // Fetch schedules for each day
+    $schedules = [];
+    foreach ($dates as $date) {
+        $schedules[$date->format('Y-m-d')] = getClassLessons($date->format('j'), $date->format('n'), $date->format('Y'), $id);
     }
     return $schedules;
 }
@@ -268,6 +325,52 @@ function getClassFromId($id)
     return $return_class;
 }
 
+function getStudents($class_id)
+{
+    $students = [];
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $query = "SELECT a.id, a.name, a.surname, a.email FROM accounts a INNER JOIN class_students cs ON a.id = cs.account_id WHERE cs.class_id = '$class_id'";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $students[] = $row;
+        }
+        return $students;
+    }
+    return 0;
+}
+
+function getTeachers($class_id)
+{
+    $teachers = [];
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $query = "SELECT a.id, a.name, a.surname, a.email FROM accounts a INNER JOIN class_teachers cs ON a.id = cs.account_id WHERE cs.class_id = '$class_id'";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $teachers[] = $row;
+        }
+        return $teachers;
+    }
+    return 0;
+}
+
 function getAccountNames()
 {
     $names = [];
@@ -307,6 +410,25 @@ function getAccountName($id)
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         return $row['name'] . ' ' . $row['surname'];
+    }
+    return '';
+}
+
+function getAttendance($date, $session, $class_id, $account_id)
+{
+    $host = 'localhost'; // Host name
+    $username = 'root'; // MySQL username
+    $password = '321567@Op'; // MySQL password
+    $db_name = 'DataHub'; // Database name
+
+    $conn = new mysqli($host, $username, $password, $db_name);
+
+    $query = "SELECT status, attendance_id FROM attendance WHERE date = '$date' AND session = '$session' AND class_id = '$class_id' AND account_id = '$account_id'";
+
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
     }
     return '';
 }

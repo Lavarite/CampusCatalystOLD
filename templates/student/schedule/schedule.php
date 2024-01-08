@@ -8,6 +8,7 @@ auth('../../login/login.php', 'student');
 <head>
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
+    <link rel="icon" href="../../../presets/favicon.png" type="image/png">
     <link href="schedule.css" rel="stylesheet" type="text/css">
     <link href="schedule_block.css" rel="stylesheet" type="text/css">
     <link href="../header/header.css" rel="stylesheet" type="text/css">

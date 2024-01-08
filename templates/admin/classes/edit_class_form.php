@@ -333,5 +333,6 @@ $weekB = array_values(array_filter($schedule, function ($entry) {
             <script>addScheduleEntry('weekBEntries', <?php echo htmlspecialchars($lesson['day_of_week'])?>, <?php echo "'" . htmlspecialchars(implode(',', [$lesson['session_start'], $lesson['session_end']])) . "'"?>, <?php echo "'" . htmlspecialchars($lesson['classroom']) . "'"?>);</script>
         <?php endforeach;?>
     </div>
-    <button type="button" class="cancel-btn" onclick="deleteClass()">Delete</button>
 </div>
+<button type="button" class="cancel-btn" onclick="deleteClass()">Delete</button>
+<button type="button" class="submit" onclick="window.location.href = '../class/class.php?class_id='+<?= $class_id?>">View Class</button>

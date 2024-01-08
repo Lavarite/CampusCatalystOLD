@@ -17,6 +17,7 @@ $classes = getFilteredClasses();
 <head>
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
+    <link rel="icon" href="../../../presets/favicon.png" type="image/png">
     <link href="classes.css" rel="stylesheet" type="text/css">
     <link href="create_class_form.css" rel="stylesheet" type="text/css">
     <link href="../header/header.css" rel="stylesheet" type="text/css">

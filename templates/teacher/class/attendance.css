@@ -1,0 +1,89 @@
+#attendance-sheet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 1000px;
+    height: 80%;
+    overflow: scroll;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.attendance-sheet {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance-sheet th,
+.attendance-sheet td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+    background-color: #fff;
+    white-space: nowrap;
+}
+
+.attendance-sheet .student-name {
+    background-color: #e7e7e7;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+}
+
+
+.attendance-sheet thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f2f2f2;
+}
+
+.attendance-sheet thead th:first-child {
+    position: relative;
+    z-index: 5;
+}
+
+.attendance-data {
+    overflow: auto;
+}
+
+.lesson-cell.lunch {
+    background-color: #ffe0b2;
+}
+
+.lesson-cell.after-school {
+    background-color: #e6e6ff;
+}
+
+.cancel {
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel:hover {
+    background-color: #d32f2f;
+}
+
+.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.submit:hover {
+    background-color: #45a049;
+}

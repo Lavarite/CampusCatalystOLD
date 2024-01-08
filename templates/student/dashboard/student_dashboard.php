@@ -2,72 +2,56 @@
 include('../../login/session_auth.php');
 include('../../../presets/getset.php');
 auth('../../login/login.php', 'student');
-$todaysClasses = getLessons('student');
+$classes = getLessons('student');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
+    <link rel="icon" href="../../../presets/favicon.png" type="image/png">
     <link href="student_dashboard.css" rel="stylesheet" type="text/css">
     <link href="../header/header.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>$(function(){$(".header").load("../header/header.html")});</script>
 </head>
-<body>
 
 <!-- Header -->
 <div class="header"></div>
 
-<div class="date-label">Schedule for <?php echo date('j') . 'th ' . date('F')?></div>
+<body>
+
+<H2>Schedule for <?= htmlspecialchars(date('D jS'))?></H2>
+
 <div class="schedule-graph">
+    <!-- Time Labels -->
     <div class="time-labels">
-        <!-- Generate time labels for 8:00 to 17:00 -->
-        <?php for($hour = 8; $hour <= 17; $hour++): ?>
+        <?php for ($hour = 8; $hour <= 17; $hour++): ?>
             <div class="time-label" style="top: <?= ($hour - 8) * 60 ?>px;">
-                <span class="hour"><?= $hour ?>:00</span>
-                <span class="hour-tick" style="translate: 200% -32px"></span>
+                <span class="hour"><?= str_pad($hour, 2, '0', STR_PAD_LEFT) ?>:00</span>
             </div>
         <?php endfor; ?>
-
     </div>
+    <!-- Classes -->
     <div class="classes-container">
-        <?php foreach ($todaysClasses as $class): ?>
+        <?php foreach ($classes as $class): ?>
             <?php
+            // Calculate the position and height of each class block
             $startTime = strtotime($class['session_start']);
             $endTime = strtotime($class['session_end']);
-            $duration = ($endTime - $startTime) / 3600; // Duration in hours
-            list($hours, $minutes) = explode(':', $class['session_start']);
-            $startTimeInMinutes = $hours * 60 + $minutes - 8 * 60; // Subtract 8 hours worth of minutes
-            $topPosition = $startTimeInMinutes; // Convert hours to 'top' position
-            $height = $duration * 60; // Convert duration to height
+            $duration = ($endTime - $startTime) / 60; // Duration in minutes
+            list($hours, $minutes) = explode(':', date('H:i', $startTime));
+            $topPosition = ($hours * 60 + $minutes - 8 * 60); // Position from 8:00AM
+            $height = $duration; // Height proportional to duration
             ?>
-            <div class="class-block" style="top: <?= $topPosition ?>px; height: <?= $height ?>px;">
+            <div class="class-block" style="top: <?= $topPosition ?>px; height: <?= $height ?>px;" onclick="window.location.href = '../class/class.php?class_id=<?=$class['id']?>'">
                 <span class="class-name"><?= htmlspecialchars($class['name']) ?></span>
-                <span class="class-time"><?= htmlspecialchars(date('H:i', strtotime($class['session_start']))) ?> - <?= htmlspecialchars(date('H:i', strtotime($class['session_end']))) ?></span>
-                <span class="class-room"><?= htmlspecialchars($class['classroom'])?></span>
+                <span class="class-time"><?= htmlspecialchars(date('H:i', $startTime)) ?> - <?= htmlspecialchars(date('H:i', $endTime)) ?></span>
+                <span class="class-name"><?= htmlspecialchars($class['classroom']) ?></span>
             </div>
         <?php endforeach; ?>
     </div>
-
-    <?php
-    $height = 1;
-    // Get the current time
-    $currentTime = new DateTime();
-    $graphStartTime = clone $currentTime;
-    $graphEndTime = clone $currentTime;
-    $graphStartTime->setTime(9, 0);
-    $graphEndTime->setTime(18, 0);
-    $minutesSinceStartOfDay = 0;
-    if ($currentTime >= $graphStartTime and $currentTime <= $graphEndTime) {
-        $interval = $currentTime->diff($graphStartTime);
-        $minutesSinceStartOfDay = ($interval->h * 60) + $interval->i;
-    }else {
-        $height = 0;
-    }
-    $topPosition = $minutesSinceStartOfDay;
-    ?>
-    <div class="current-time-marker" style="height: <?= $height ?>px;top: <?= $topPosition ?>px;"></div>
+</div>
 
 </div>
 </body>

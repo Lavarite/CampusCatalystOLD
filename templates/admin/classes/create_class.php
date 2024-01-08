@@ -35,7 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->query($sql);
     }
 
-    $weekType = !isset($_POST['weekBScheduleData']) ? 'A' : 'Both';
+    if(!empty($_POST['weekAScheduleData']) and !empty($_POST['weekBScheduleData'])){
+        $weekType = 'A';
+    }else {
+        $weekType = 'Both';
+    }
+
     if (isset($_POST['weekAScheduleData'])) {
         $weekAScheduleEntries = explode(';', $_POST['weekAScheduleData']);
         foreach ($weekAScheduleEntries as $entry) {

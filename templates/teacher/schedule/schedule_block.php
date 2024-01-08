@@ -1,6 +1,6 @@
 <?php
 include('../../../presets/getset.php');
-$schedules = getLessonsInterval(14, 'student');
+$schedules = getLessonsInterval(14, 'teacher');
 ?>
 
 <div class="schedule-container">

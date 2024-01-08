@@ -1,0 +1,122 @@
+/* General resets and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f8f8f8;
+}
+
+/* Container for both lists */
+.lists-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: flex-start; /* Align items at the start, allowing for different heights */
+}
+
+/* Styles for the student and teacher lists */
+#student-list,
+#teacher-list {
+    flex: 1; /* Each takes equal space */
+    margin: 0 10px; /* Spacing between lists */
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    overflow: hidden; /* Ensures content does not spill outside the border radius */
+    max-height: calc(50vh - 40px); /* Full viewport height minus padding/margins */
+    overflow-y: auto; /* Enables vertical scrolling */
+    min-height: 100px; /* Minimum height */
+    max-width: 20%;
+}
+
+.student-entry:hover,
+.teacher-entry:hover {
+    background-color: #ddd;
+}
+
+/* Styles for the student and teacher entries */
+.student-entry,
+.teacher-entry {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Separates individual entries */
+    cursor: pointer; /* Indicates these are clickable */
+}
+
+/* Header styles within each list */
+#student-list h3,
+#teacher-list h3 {
+    padding: 15px;
+    background-color: #4CAF50; /* Matching the earlier header color */
+    color: white;
+    margin: 0; /* Remove default margins */
+    border-bottom: 1px solid #ddd; /* Separates header from list */
+}
+
+/* Styles for the class detail banner */
+.class-detail-banner {
+    flex: 0 0 60%; /* The banner takes 60% of the container width */
+    margin: 0 10px; /* Spacing on the sides */
+    background-image: url('../../../presets/class_background.jfif'); /* Path to your chosen banner image */
+    background-size: cover; /* Ensure the image covers the entire banner */
+    background-position: center; /* Center the image in the banner */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    height: 200px; /* Set a fixed height for your banner */
+    position: relative; /* Needed for the absolute positioning of class details */
+}
+
+.class-details {
+    position: absolute;
+    bottom: 20px; /* Adjust the distance from the bottom */
+    left: 20px; /* Adjust the distance from the right */
+    text-align: left;
+    color: white; /* Text color, assuming a darker image */
+}
+
+#class-name {
+    font-size: 2em; /* Adjust font size as necessary */
+}
+
+#class-code {
+    font-size: 1em; /* Adjust font size as necessary */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .lists-container {
+        flex-direction: column; /* Stack the lists on smaller screens */
+    }
+
+    #student-list,
+    #teacher-list {
+        margin: 10px 0; /* Adjust margin for stacked layout */
+        max-height: calc(50vh - 20px); /* Adjust height to 50% of viewport height for each */
+    }
+
+    .class-detail-banner {
+        margin: 10px 0;
+        width: auto; /* Full width on smaller screens */
+    }
+}
+
+
+.regular-btn {
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.regular-btn:hover {
+    background-color: #45a049;
+}

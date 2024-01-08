@@ -1,5 +1,5 @@
 <?php
-setcookie("updateToken", "", time() - 3600, "/");
+setcookie("token", "", time() - 3600000, "/");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +7,7 @@ setcookie("updateToken", "", time() - 3600, "/");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="icon" type="image/x-icon" href="../../presets/icon.ico">
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
