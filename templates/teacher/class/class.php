@@ -15,9 +15,14 @@ $teachers = getTeachers($class_id);
     <link rel="icon" href="../../../presets/favicon.png" type="image/png">
     <link href="class.css" rel="stylesheet" type="text/css">
     <link href="attendance.css" rel="stylesheet" type="text/css">
+    <link href="consequence.css" rel="stylesheet" type="text/css">
+    <link href="rewards.css" rel="stylesheet" type="text/css">
     <link href="../header/header.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>$(function(){$(".header").load("../header/header.html")});</script>
+    <script>
+        $(function(){$(".header").load("../header/header.html")});
+
+    </script>
 </head>
 
 <!-- Header -->
@@ -27,7 +32,6 @@ $teachers = getTeachers($class_id);
 <div class="lists-container">
     <div id="student-list">
         <h3>Students</h3>
-        <button class="regular-btn" onclick="showAttendance()" style="align-self: ">Check Attendance</button>
         <?php if (!empty($students)):?>
             <?php foreach ($students as $student): ?>
                 <div class="student-entry" data-id="<?= $student['id']?>" onclick="">
@@ -36,11 +40,17 @@ $teachers = getTeachers($class_id);
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-    <div class="class-detail-banner">
-        <div class="class-details">
-            <h1 id="class-name"><?= $class['subject']?></h1>
-            <p id="class-code"><?= $class['code']?></p>
+
+    <div class="middle-row">
+        <div class="class-detail-banner">
+            <div class="class-details">
+                <h1 id="class-name"><?= $class['subject']?></h1>
+                <p id="class-code"><?= $class['code']?></p>
+            </div>
         </div>
+        <button class="regular-btn" onclick="showAttendance()" style="align-self: ">Check Attendance</button>
+        <button class="regular-btn" onclick="showConsequence()" style="align-self: ">Give Consequence</button>
+        <button class="regular-btn" onclick="showRewards()" style="align-self: ">Give Rewards</button>
     </div>
 
     <div id="teacher-list">
@@ -56,9 +66,27 @@ $teachers = getTeachers($class_id);
 </div>
 
 <div id="attendanceForm" class="popup-form"></div>
+<div id="consequenceForm" class="popup-form"></div>
+<div id="rewardsForm" class="popup-form"></div>
 </body>
 
 <script>
+    function showRewards() {
+        var class_id = <?= $class_id?>;
+        $.ajax({
+            url: "rewards.php",
+            type: "GET",
+            data: { class_id: class_id },
+            success: function(data) {
+                // Show the edit form with the data received
+                $("#rewardsForm").html(data).show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error loading form: " + textStatus, errorThrown);
+            }
+        });
+    }
+
     function showAttendance() {
         var class_id = <?= $class_id?>;
         $.ajax({
@@ -68,6 +96,22 @@ $teachers = getTeachers($class_id);
             success: function(data) {
                 // Show the edit form with the data received
                 $("#attendanceForm").html(data).show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error loading form: " + textStatus, errorThrown);
+            }
+        });
+    }
+
+    function showConsequence() {
+        var class_id = <?= $class_id?>;
+        $.ajax({
+            url: "consequence.php",
+            type: "GET",
+            data: { class_id: class_id},
+            success: function(data) {
+                // Show the edit form with the data received
+                $("#consequenceForm").html(data).show();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error loading form: " + textStatus, errorThrown);

@@ -432,4 +432,145 @@ function getAttendance($date, $session, $class_id, $account_id)
     }
     return '';
 }
+
+function getRewardsStudent($student_id, $return, $greater = false, $type = '', $name = '')
+{
+    $type_str = '';
+    if (!empty($type)) {
+        if ($greater) {
+            $type_str = " type >= '$type' AND ";
+        }else {
+            $type_str = " type = '$type' AND ";
+        }
+    }
+    $hostname = "localhost";
+    $username = "root";
+    $password = "321567@Op";
+    $database = "datahub";
+
+    $conn = new mysqli($hostname, $username, $password, $database);
+
+// Fetch rewards data of a specific type and student
+    $sql = "SELECT details, volume, class_id, date, teacher_id, type FROM rewards WHERE" . $type_str . " account_id = '$student_id'";
+    $result = $conn->query($sql);
+
+    $rewards_data = [];
+    while($row = $result->fetch_assoc()) {
+        $rewards_data[] = ['details' => $row['details'], 'volume' => $row['volume'], 'subject' => getClassFromId($row['class_id'])['subject'], 'date' => $row['date'], 'teacher_id' => $row['teacher_id'], 'type' => $row['type']];
+    }
+
+// Encode rewards data to JSON format
+    $conn->close();
+    if ($return){
+        return $rewards_data;
+    } else{
+        $data = json_encode($rewards_data);
+        if (!empty($name)){
+            echo "<script>var $name = $data;</script>";
+        }else {
+            echo "<script>var data = $data;</script>";
+        }
+    }
+}
+
+function getConsequencesStudent($student_id, $return, $name = '', $type = '' )
+{
+    $type_str = '';
+    if (!empty($type)) {
+        $type_str = " type = '$type' AND ";
+    }
+    $hostname = "localhost";
+    $username = "root";
+    $password = "321567@Op";
+    $database = "datahub";
+
+    $conn = new mysqli($hostname, $username, $password, $database);
+
+// Fetch rewards data of a specific type and student
+    $sql = "SELECT teacher_id, class_id, date, details, type, level FROM consequences WHERE" . $type_str . " account_id = '$student_id'";
+    $result = $conn->query($sql);
+
+    $rewards_data = [];
+    while($row = $result->fetch_assoc()) {
+        $rewards_data[] = ['details' => $row['details'], 'level' => $row['level'], 'subject' => getClassFromId($row['class_id'])['subject'], 'date' => $row['date'], 'teacher_id' => $row['teacher_id'], 'type' => $row['type']];
+    }
+
+// Encode rewards data to JSON format
+    $conn->close();
+    if ($return){
+        return $rewards_data;
+    } else{
+        $data = json_encode($rewards_data);
+        if (!empty($name)){
+            echo "<script>var $name = $data;</script>";
+        }else {
+            echo "<script>var data = $data;</script>";
+        }
+    }
+}
+
+function getStudentAccounts()
+{
+    $hostname = "localhost";
+    $username = "root";
+    $password = "321567@Op";
+    $database = "datahub";
+
+    $conn = new mysqli($hostname, $username, $password, $database);
+
+// Fetch rewards data of a specific type and student
+    $sql = "SELECT id, name, surname FROM accounts WHERE role = 'student'";
+    $result = $conn->query($sql);
+
+    $students = [];
+    while($row = $result->fetch_assoc()) {
+        $students[] = $row;
+    }
+    return $students;
+}
+
+function getFilteredStudentAccounts()
+{
+    $hostname = "localhost";
+    $username = "root";
+    $password = "321567@Op";
+    $database = "datahub";
+
+    $conn = new mysqli($hostname, $username, $password, $database);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $whereClauses = [];
+
+    $name = isset($_GET['name']) ? $_GET['name'] : '';
+    $surname = isset($_GET['surname']) ? $_GET['surname'] : '';
+    $email = isset($_GET['email']) ? $_GET['email'] : '';
+
+    if (!empty($email)) {
+        $whereClauses[] = "email LIKE '%" . $conn->real_escape_string($email) . "%'";
+    }
+
+    if (!empty($name)) {
+        $whereClauses[] = "name LIKE '%" . $conn->real_escape_string($name) . "%'";
+    }
+
+    if (!empty($surname)) {
+        $whereClauses[] = "surname LIKE '%" . $conn->real_escape_string($surname) . "%'";
+    }
+
+    $where = !empty($whereClauses) ? 'WHERE ' . implode(' AND ', $whereClauses) . " AND role = 'student'": "WHERE role = 'student'";
+
+    $sql = "SELECT id, name, surname FROM accounts " . $where;
+    $result = $conn->query($sql);
+
+    $data = [];
+    while($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+
+    $conn->close();
+    return $data;
+}
 ?>

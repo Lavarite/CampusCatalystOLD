@@ -1,0 +1,203 @@
+#filtered-consequences {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.filter-bar {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+}
+
+.filter-bar form div {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+.filter-bar label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input field styling */
+.filter-bar input[type="text"]{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.filter-bar input[type="text"]:focus,
+.filter-bar input[type="number"]:focus {
+    border-color: #88aaff;
+    outline: none;
+}
+
+/* Button styling */
+.filter-bar button {
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0056b3;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-bar button {
+    margin-top: 5px;
+}
+
+.filter-bar button:hover {
+    background-color: #003d82;
+}
+
+.filter-bar button[type="button"] {
+    background-color: #6c757d; /* Different color for reset button */
+}
+
+.filter-bar button[type="button"]:hover {
+    background-color: #565e64;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-bar {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 20px;
+    }
+}
+
+#table-wrapper {
+    height: 400px;
+    width: 40%;
+    overflow-y: auto;
+}
+
+.consequence-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.consequence-table th, .consequence-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.consequence-table thead {
+    background-color: #f2f2f2;
+}
+
+.consequence-table th {
+    font-weight: bold;
+}
+
+.chart-container {
+    margin: 10px auto;
+    max-width: 100%;
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.chart {
+    flex: 1;
+    margin: 10px;
+    max-width: calc(50% - 20px);
+    box-sizing: border-box;
+}
+
+.chart-label, .consequences-label {
+    font: bold 16px sans-serif;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+}
+
+.chart-canvas {
+    max-height: 200px;
+    max-width: 200px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.details-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px;
+    max-width: calc(50% - 20px);
+    box-sizing: border-box;
+}
+
+.consequences-block {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.consequences-details {
+    font-size: 16px;
+    color: #333;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .chart-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart, .details-section {
+        max-width: 100%;
+    }
+}
+
+.create-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

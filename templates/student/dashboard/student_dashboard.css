@@ -1,9 +1,89 @@
+/* Resetting default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    line-height: 1.6;
+}
+
+.schedule-container {
+    max-width: 30%;
+    max-height: 85vh; /* Full height of the viewport */
+    overflow-y: auto; /* Enables vertical scrolling within the container */
+    margin: 20px;
+    padding: 10px; /* Add some padding inside the container */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.day-schedule {
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+/* Day Bar at the top of each day's schedule */
+.day-bar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+.date-info {
+    font-weight: bold;
+}
+
+.expand-icon {
+    font-size: 1.5em;
+    transition: transform 0.3s ease;
+}
+
+/* Compact View for each class item */
+.compact-view {
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.class-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.class-subject {
+    font-weight: bold;
+    color: #333;
+}
+
+.class-room-time {
+    text-align: right;
+}
+
+/* Detailed View styles */
+.detailed-view {
+    display: none; /* hidden initially, shown when the day bar is clicked */
+    background-color: #fff;
+    padding: 20px;
+}
+
 .schedule-graph {
     position: relative;
-    height: 600px; /* adjust according to your schedule length */
+    height: 540px; /* adjust according to your schedule length */
     border-left: 2px solid #000;
     margin-left: 50px;
-    max-width: 25%;
 }
 
 .time-labels {
@@ -52,6 +132,48 @@
     opacity: 0.7;
 }
 
+/* Current Time Indicator */
+.current-time-marker {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    /* The top position should be calculated based on the current time */
+    left: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .schedule-container {
+        width: auto;
+        margin: 10px;
+    }
+
+    .schedule-graph {
+        margin-left: 30px;
+    }
+
+    .time-labels {
+        left: -30px;
+        width: 30px;
+    }
+}
+
+/* Additional styles as needed */
+
+
+.house-points-container {
+    position: absolute;
+    right: 10px;
+    top: 75px;
+    width: 250px; /* Adjust the width as needed */
+    border: 1px solid #ddd; /* Optional: border */
+    padding: 10px;
+    text-align: center;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .schedule-container {
@@ -68,4 +190,5 @@
         left: -30px;
         width: 30px;
     }
+
 }

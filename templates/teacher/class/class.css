@@ -57,10 +57,13 @@ body {
     border-bottom: 1px solid #ddd; /* Separates header from list */
 }
 
-/* Styles for the class detail banner */
-.class-detail-banner {
+.middle-row{
     flex: 0 0 60%; /* The banner takes 60% of the container width */
     margin: 0 10px; /* Spacing on the sides */
+}
+
+/* Styles for the class detail banner */
+.class-detail-banner {
     background-image: url('../../../presets/class_background.jfif'); /* Path to your chosen banner image */
     background-size: cover; /* Ensure the image covers the entire banner */
     background-position: center; /* Center the image in the banner */

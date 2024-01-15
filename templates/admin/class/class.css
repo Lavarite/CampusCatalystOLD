@@ -57,10 +57,13 @@ body {
     border-bottom: 1px solid #ddd; /* Separates header from list */
 }
 
-/* Styles for the class detail banner */
-.class-detail-banner {
+.middle-row{
     flex: 0 0 60%; /* The banner takes 60% of the container width */
     margin: 0 10px; /* Spacing on the sides */
+}
+
+/* Styles for the class detail banner */
+.class-detail-banner {
     background-image: url('../../../presets/class_background.jfif'); /* Path to your chosen banner image */
     background-size: cover; /* Ensure the image covers the entire banner */
     background-position: center; /* Center the image in the banner */
@@ -102,4 +105,21 @@ body {
         margin: 10px 0;
         width: auto; /* Full width on smaller screens */
     }
+}
+
+
+.regular-btn {
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.regular-btn:hover {
+    background-color: #45a049;
 }

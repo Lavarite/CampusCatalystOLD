@@ -1,0 +1,68 @@
+#charts {
+    margin: 20px auto auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    max-width: 700px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.chart {
+    max-width: 200px;
+    text-align: center;
+}
+
+.rewards-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.rewards-block {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Adds shadow for depth */
+    text-align: center;
+    padding: 15px;
+    margin: 10px;
+    flex-basis: 20%; /* Adjusts the base width of the boxes */
+    min-width: 150px; /* Minimum width of the boxes */
+    background-color: #fff;
+}
+
+.rewards-label {
+    font: bold 18px sans-serif;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.points-details {
+    font-size: 16px;
+}
+
+#table-wrapper {
+    height: 215px;
+    overflow-y: auto;
+}
+
+.rewards-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.rewards-table th, .rewards-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.rewards-table thead {
+    background-color: #f2f2f2;
+}
+
+.rewards-table th {
+    font-weight: bold;
+}
